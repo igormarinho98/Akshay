@@ -10,10 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\**" />
     <Compile Remove="NovaPasta\**" />
+    <Content Remove="Data\**" />
     <Content Remove="NovaPasta\**" />
+    <EmbeddedResource Remove="Data\**" />
     <EmbeddedResource Remove="NovaPasta\**" />
+    <None Remove="Data\**" />
     <None Remove="NovaPasta\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\WeatherForecastController.cs" />
+    <Compile Remove="Models\WeatherForecast.cs" />
   </ItemGroup>
 
   <ItemGroup>

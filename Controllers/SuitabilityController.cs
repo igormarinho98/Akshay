@@ -38,12 +38,102 @@ using System.Threading.Tasks;
              
         }
 
-        [HttpPost]
-        public IActionResult AddSuitability(Suitability suitability)
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
         {
-            suitabilityList.Add(suitability);
-            return CreatedAtAction(nameof(GetAll), null);
+            var parameters = new
+            {
+            id
+            };
+            using (var sqlConnection = new SqlConnection(_connectionString))
+            {
+                const string sql = "SELECT * FROM Suitability WHERE Id = @id";
+                
+                var suitability = await sqlConnection.QuerySingleOrDefaultAsync<Suitability> (sql, parameters);
+
+                if (suitability is null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(suitability);
+        
+        
+            }
+    
+    
+    
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> AddSuitability(Suitability model)
+        {
+            var suitability = new Suitability(model.Perfil, model.Descricao, model.DataRegistro);
+            var parameters = new
+            {
+                suitability.Perfil,
+                suitability.Descricao,
+                suitability.DataRegistro
+
+     
+            };
+
+            using (var sqlConnection = new SqlConnection(_connectionString))
+            {
+                const string sql = "INSERT INTO Suitability OUTPUT Inserted.Id VALUES (@Perfil, @Descricao, @DataRegistro)";
+
+                var id = await sqlConnection.ExecuteScalarAsync<int>(sql, parameters);
+
+              return Ok(id);
+            }
+
+        }
+
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, Suitability model)
+        {
+
+            var parameters = new
+            {
+                id,
+                model.Descricao,
+            };
+            using (var sqlConnection = new SqlConnection(_connectionString))
+            {
+                const string sql = "UPDATE Suitability SET Descricao = @Descricao WHERE Id = @id";
+
+                await sqlConnection.ExecuteAsync(sql, parameters);
+
+
+              
+                return NoContent();
+
+            }
+
+        }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+
+        var parameters = new
+        {
+            id,
+        };
+        using (var sqlConnection = new SqlConnection(_connectionString))
+        {
+            const string sql = "DELETE FROM Suitability WHERE Id = @id";
+
+            await sqlConnection.ExecuteAsync(sql, parameters);
+
+
+
+            return NoContent();
+
+        }
+
     }
+
+}
