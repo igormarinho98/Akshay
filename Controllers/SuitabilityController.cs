@@ -20,8 +20,7 @@ using System.Threading.Tasks;
     
             }
     
-            private static List<Suitability> suitabilityList = new List<Suitability>();
-
+ 
 
         [HttpGet]
         public async Task<IActionResult> GetAll()

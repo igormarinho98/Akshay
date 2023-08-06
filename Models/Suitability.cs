@@ -5,7 +5,6 @@
         protected Suitability () { }
 
         public Suitability (string perfil, string descricao, string dataRegistro) {
-            dataRegistro = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"); 
             Perfil = perfil;
             Descricao = descricao;
             DataRegistro = dataRegistro;
