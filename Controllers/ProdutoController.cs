@@ -9,12 +9,12 @@ namespace Akshay.Controllers
     [Route("[controller]")]
     [ApiController]
     [EnableCors("AllowSpecificOrigin")]
-    public class ProductController : ControllerBase
+    public class ProdutoController : ControllerBase
     {
         private readonly string _connectionString;
 
 
-        public ProductController(IConfiguration configuration)
+        public ProdutoController(IConfiguration configuration)
         {
             _connectionString = configuration.GetConnectionString("Default");
 
@@ -27,7 +27,7 @@ namespace Akshay.Controllers
             {
                 const string sql = "SELECT * FROM Products;";
 
-                var products = await sqlConnection.QueryAsync<Product>(sql);
+                var products = await sqlConnection.QueryAsync<Produto>(sql);
 
                 return Ok(products);
 
@@ -49,7 +49,7 @@ namespace Akshay.Controllers
             {
                 const string sql = "SELECT * FROM Products WHERE Id = @id";
 
-                var product = await sqlConnection.QuerySingleOrDefaultAsync<Product>(sql, parameters);
+                var product = await sqlConnection.QuerySingleOrDefaultAsync<Produto>(sql, parameters);
 
                 if (product is null)
                 {
